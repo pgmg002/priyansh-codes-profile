@@ -4,6 +4,7 @@ import { AboutSection } from "@/components/portfolio/AboutSection";
 import { SkillsSection } from "@/components/portfolio/SkillsSection";
 import { ExperienceSection } from "@/components/portfolio/ExperienceSection";
 import { ContactSection } from "@/components/portfolio/ContactSection";
+import { ChatButton } from "@/components/chat/ChatButton";
 
 const Index = () => {
   return (
@@ -16,6 +17,9 @@ const Index = () => {
         <ExperienceSection />
         <ContactSection />
       </main>
+      
+      {/* Live Chat */}
+      <ChatButton />
       
       {/* Footer */}
       <footer className="py-8 px-6 border-t border-border">
