@@ -49,7 +49,11 @@ export const LeetCodeSection = () => {
           }
         `;
 
-        const response = await fetch('https://leetcode.com/graphql', {
+        // Using CORS proxy to bypass CORS restrictions
+        const proxyUrl = 'https://api.allorigins.win/raw?url=';
+        const targetUrl = encodeURIComponent('https://leetcode.com/graphql');
+        
+        const response = await fetch(`${proxyUrl}${targetUrl}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
