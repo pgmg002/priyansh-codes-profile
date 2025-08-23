@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/portfolio/HeroSection";
 import { AboutSection } from "@/components/portfolio/AboutSection";
 import { SkillsSection } from "@/components/portfolio/SkillsSection";
 import { ExperienceSection } from "@/components/portfolio/ExperienceSection";
+import { LeetCodeSection } from "@/components/portfolio/LeetCodeSection";
 import { ContactSection } from "@/components/portfolio/ContactSection";
 import { ChatButton } from "@/components/chat/ChatButton";
 
@@ -15,6 +16,7 @@ const Index = () => {
         <AboutSection />
         <SkillsSection />
         <ExperienceSection />
+        <LeetCodeSection />
         <ContactSection />
       </main>
       
