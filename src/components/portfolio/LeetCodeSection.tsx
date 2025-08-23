@@ -15,6 +15,10 @@ interface LeetCodeStats {
   mediumQuestions: number;
   hardQuestions: number;
   acceptanceRate: number;
+  contestRating?: number;
+  contestAttended?: number;
+  contestTopPercentage?: number;
+  badge?: string;
 }
 
 export const LeetCodeSection = () => {
@@ -27,53 +31,39 @@ export const LeetCodeSection = () => {
   useEffect(() => {
     const fetchLeetCodeStats = async () => {
       try {
-        // Since LeetCode blocks CORS and public proxies are unreliable,
-        // using mock data for demonstration. In production, you'd need a backend proxy.
-        const mockStats = {
-          username: username,
-          ranking: 45623,
-          totalSolved: 287,
-          easySolved: 145,
-          mediumSolved: 118,
-          hardSolved: 24,
-          totalQuestions: 3200,
-          easyQuestions: 800,
-          mediumQuestions: 1600,
-          hardQuestions: 800,
-          acceptanceRate: 0
-        };
-
-        // Calculate acceptance rate
-        mockStats.acceptanceRate = (mockStats.totalSolved / mockStats.totalQuestions) * 100;
-
-        setStats(mockStats);
-        setLoading(false);
-        
-        // Uncomment below for real API call with proper backend proxy
-        /*
         const query = `
-          query getUserProfile($username: String!) {
+          query userProblemsSolved($username: String!) {
+            allQuestionsCount {    
+              difficulty    
+              count  
+            }
             matchedUser(username: $username) {
               username
-              profile {
-                ranking
+              problemsSolvedBeatsStats { 
+                difficulty
+                percentage    
               }
-              submitStats: submitStatsGlobal {
-                acSubmissionNum {
-                  difficulty
-                  count
-                  submissions
-                }
+              submitStatsGlobal {
+                acSubmissionNum {        
+                  difficulty        
+                  count      
+                }    
+              }  
+            }             
+            userContestRanking(username: $username) {  
+              attendedContestsCount
+              rating
+              globalRanking
+              totalParticipants
+              topPercentage
+              badge {     
+                name 
               }
-            }
-            allQuestionsCount {
-              difficulty
-              count
             }
           }
         `;
 
-        const response = await fetch('/api/leetcode-proxy', {
+        const response = await fetch('https://leetcode.com/graphql', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -89,7 +79,6 @@ export const LeetCodeSection = () => {
         }
 
         const data = await response.json();
-
         
         if (data.errors) {
           throw new Error('GraphQL error: ' + data.errors[0].message);
@@ -97,12 +86,13 @@ export const LeetCodeSection = () => {
 
         const user = data.data.matchedUser;
         const allQuestions = data.data.allQuestionsCount;
+        const contestRanking = data.data.userContestRanking;
         
         if (!user) {
           throw new Error('User not found');
         }
 
-        const submitStats = user.submitStats.acSubmissionNum;
+        const submitStats = user.submitStatsGlobal.acSubmissionNum;
         const totalSolved = submitStats.find((s: any) => s.difficulty === "All")?.count || 0;
         const easySolved = submitStats.find((s: any) => s.difficulty === "Easy")?.count || 0;
         const mediumSolved = submitStats.find((s: any) => s.difficulty === "Medium")?.count || 0;
@@ -115,7 +105,7 @@ export const LeetCodeSection = () => {
 
         setStats({
           username: user.username,
-          ranking: user.profile.ranking,
+          ranking: contestRanking?.globalRanking || 0,
           totalSolved,
           easySolved,
           mediumSolved,
@@ -124,9 +114,13 @@ export const LeetCodeSection = () => {
           easyQuestions,
           mediumQuestions,
           hardQuestions,
-          acceptanceRate: totalQuestions > 0 ? (totalSolved / totalQuestions) * 100 : 0
+          acceptanceRate: totalQuestions > 0 ? (totalSolved / totalQuestions) * 100 : 0,
+          contestRating: contestRanking?.rating,
+          contestAttended: contestRanking?.attendedContestsCount,
+          contestTopPercentage: contestRanking?.topPercentage,
+          badge: contestRanking?.badge?.name
         });
-        */
+        setLoading(false);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch data');
         console.error('LeetCode API Error:', err);
