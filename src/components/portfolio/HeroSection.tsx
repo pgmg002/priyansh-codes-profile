@@ -9,7 +9,7 @@ interface HeroSectionProps {
 
 export const HeroSection = ({ isMobileMenuOpen = false }: HeroSectionProps) => {
   return (
-    <section className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'pt-200 md:pt-0' : ''}`}>
+    <section className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'pt-48 md:pt-0' : ''}`}>
       {/* 3D Background */}
       <Background3D />
       
