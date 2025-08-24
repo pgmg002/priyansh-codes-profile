@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Navigation } from "@/components/portfolio/Navigation";
 import { HeroSection } from "@/components/portfolio/HeroSection";
 import { AboutSection } from "@/components/portfolio/AboutSection";
@@ -8,11 +9,15 @@ import { ContactSection } from "@/components/portfolio/ContactSection";
 import { ChatButton } from "@/components/chat/ChatButton";
 
 const Index = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   return (
     <div className="min-h-screen bg-background">
-      <Navigation />
+      <Navigation 
+        isMobileMenuOpen={isMobileMenuOpen}
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />
       <main>
-        <HeroSection />
+        <HeroSection isMobileMenuOpen={isMobileMenuOpen} />
         <AboutSection />
         <SkillsSection />
         <ExperienceSection />

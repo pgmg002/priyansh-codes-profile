@@ -3,9 +3,13 @@ import { Github, Linkedin, Mail, Download } from "lucide-react";
 import { Background3D } from "@/components/3d/Background3D";
 import heroBg from "@/assets/hero-bg.jpg";
 
-export const HeroSection = () => {
+interface HeroSectionProps {
+  isMobileMenuOpen?: boolean;
+}
+
+export const HeroSection = ({ isMobileMenuOpen = false }: HeroSectionProps) => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'pt-48 md:pt-0' : ''}`}>
       {/* 3D Background */}
       <Background3D />
       
