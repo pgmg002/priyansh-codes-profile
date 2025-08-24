@@ -36,13 +36,13 @@ export const Navigation = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-smooth ${
+      className={`fixed top-0 left-0 right-0 z-[60] transition-smooth ${
         isScrolled 
           ? "bg-background/80 backdrop-blur-md border-b border-border shadow-card" 
           : "bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 py-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <button
@@ -82,8 +82,8 @@ export const Navigation = () => {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden mt-4 pb-4 border-t border-border">
-            <div className="flex flex-col gap-4 pt-4">
+          <div className="md:hidden mt-4 pb-4 border-t border-border bg-background/95 backdrop-blur-md rounded-b-lg mx-2">
+            <div className="flex flex-col gap-4 pt-4 px-2">
               {navItems.map((item) => (
                 <button
                   key={item.label}
